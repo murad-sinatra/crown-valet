@@ -27,6 +27,47 @@ jobs:
           node-version: "22"
           cache: npm
 
+      - name: Enable GitHub Pages API site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_API_URL: ${{ github.api_url }}/repos/${{ github.repository }}/pages
+        run: |
+          set -euo pipefail
+
+          headers=(
+            -H "Accept: application/vnd.github+json"
+            -H "Authorization: Bearer ${GH_TOKEN}"
+            -H "Content-Type: application/json"
+            -H "X-GitHub-Api-Version: 2026-03-10"
+          )
+
+          status="$(curl -sS -L -o /tmp/pages-site.json -w "%{http_code}" "${headers[@]}" "${PAGES_API_URL}")"
+
+          if [ "${status}" = "404" ]; then
+            create_status="$(curl -sS -L -X POST -o /tmp/pages-create.json -w "%{http_code}" \
+              "${headers[@]}" \
+              "${PAGES_API_URL}" \
+              -d '{"build_type":"workflow"}')"
+
+            if [ "${create_status}" != "201" ] && [ "${create_status}" != "409" ]; then
+              cat /tmp/pages-create.json
+              exit 1
+            fi
+          elif [ "${status}" = "200" ]; then
+            update_status="$(curl -sS -L -X PUT -o /tmp/pages-update.json -w "%{http_code}" \
+              "${headers[@]}" \
+              "${PAGES_API_URL}" \
+              -d '{"build_type":"workflow"}')"
+
+            if [ "${update_status}" != "204" ]; then
+              cat /tmp/pages-update.json
+              exit 1
+            fi
+          else
+            cat /tmp/pages-site.json
+            exit 1
+          fi
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
