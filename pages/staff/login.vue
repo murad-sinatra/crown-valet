@@ -1,3 +1,14 @@
+<script setup lang="ts">
+const staffSession = useCookie('cv_staff_session', {
+  sameSite: 'lax',
+})
+
+function enterPilotMode() {
+  staffSession.value = 'attendant@crownvalet.test'
+  return navigateTo('/staff')
+}
+</script>
+
 <template>
   <main class="app-surface">
     <div class="app-shell">
@@ -6,15 +17,16 @@
       <PageHeader
         eyebrow="Staff login"
         title="Access Crown Valet operations"
-        description="Sprint 1 protects operational pages. Sprint 2 will replace this shell with the selected pilot staff authentication flow."
+        description="Use the seeded pilot staff session to access local operations while the final authentication provider is pending."
       />
 
       <section class="app-card">
-        <h2>Authentication shell</h2>
+        <h2>Pilot staff access</h2>
         <p>
-          Staff and manager credentials will be wired after the auth approach is finalized.
-          For now, protected routes redirect here when no staff session cookie is present.
+          This starts a local attendant session for the MVP workflow. Production authentication
+          will replace this before pilot launch.
         </p>
+        <button class="button primary" type="button" @click="enterPilotMode">Enter staff operations</button>
       </section>
     </div>
   </main>

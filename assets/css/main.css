@@ -586,6 +586,241 @@ textarea {
   padding: 16px;
 }
 
+.check-in-form,
+.form-section,
+.session-list,
+.detail-layout,
+.timeline-list {
+  display: grid;
+  gap: 18px;
+}
+
+.form-section {
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 22px;
+}
+
+.form-section:last-of-type {
+  border-bottom: 0;
+}
+
+.form-section h2,
+.section-toolbar h2,
+.empty-state h2,
+.detail-summary h2 {
+  color: var(--color-ink);
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.form-section .eyebrow,
+.section-toolbar .eyebrow {
+  margin-bottom: 8px;
+}
+
+.form-grid,
+.detail-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  color: var(--color-muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.field strong {
+  color: var(--color-gold-deep);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.field input,
+.field textarea {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  color: var(--color-ink);
+  outline: none;
+  padding: 14px 16px;
+  width: 100%;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: rgba(166, 111, 24, 0.46);
+  box-shadow: 0 0 0 4px rgba(245, 199, 107, 0.18);
+}
+
+.form-submit {
+  justify-self: start;
+}
+
+.form-submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
+.form-error {
+  background: rgba(166, 111, 24, 0.12);
+  border: 1px solid rgba(166, 111, 24, 0.24);
+  border-radius: 16px;
+  color: #7a4300;
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.muted-copy {
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.section-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.session-list-card {
+  padding: clamp(18px, 3vw, 30px);
+}
+
+.session-row {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--color-line);
+  border-radius: 22px;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  padding: 18px;
+}
+
+.session-row h3 {
+  color: var(--color-ink);
+  font-size: 1.15rem;
+  letter-spacing: -0.03em;
+  margin: 12px 0 6px;
+}
+
+.session-row p,
+.session-meta span,
+.detail-summary p {
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.session-meta {
+  display: grid;
+  gap: 6px;
+  text-align: right;
+}
+
+.session-meta strong {
+  color: var(--color-ink);
+}
+
+.empty-state {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+}
+
+.detail-layout {
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+}
+
+.detail-summary,
+.detail-timeline {
+  grid-column: 1 / -1;
+}
+
+.detail-grid {
+  margin: 22px 0 0;
+}
+
+.detail-grid div {
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.detail-grid dt {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.detail-grid dd {
+  color: var(--color-ink);
+  font-weight: 800;
+  margin: 0;
+}
+
+.share-link-card {
+  background: rgba(245, 199, 107, 0.18);
+  border: 1px solid rgba(166, 111, 24, 0.22);
+  border-radius: 18px;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.share-link-card p {
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.share-link-card a {
+  color: var(--color-gold-deep);
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.timeline-list {
+  margin: 18px 0 0;
+  padding: 0;
+}
+
+.timeline-list li {
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  padding: 16px;
+}
+
+.timeline-list span {
+  color: var(--color-muted);
+  line-height: 1.55;
+}
+
 @media (max-width: 900px) {
   .nav-links {
     display: none;
@@ -598,7 +833,8 @@ textarea {
 
   .hero-grid,
   .how-it-works,
-  .app-grid {
+  .app-grid,
+  .detail-layout {
     grid-template-columns: 1fr;
   }
 
@@ -617,8 +853,20 @@ textarea {
   }
 
   .feature-grid,
-  .stats {
+  .stats,
+  .form-grid,
+  .detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-toolbar,
+  .session-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .session-meta {
+    text-align: left;
   }
 }
 

@@ -1,4 +1,4 @@
-import { createError, defineEventHandler, readValidatedBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import { z } from 'zod'
 import { prisma } from '../../utils/db'
 import { getCurrentStaffUser } from '../../utils/staff'
@@ -23,7 +23,16 @@ function optionalText(value?: string) {
 
 export default defineEventHandler(async (event) => {
   const staffUser = await getCurrentStaffUser(event)
-  const body = await readValidatedBody(event, (value) => checkInSchema.parse(value))
+  const parsedBody = checkInSchema.safeParse(await readBody(event))
+
+  if (!parsedBody.success) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: parsedBody.error.issues[0]?.message ?? 'Invalid check-in details',
+    })
+  }
+
+  const body = parsedBody.data
   const ticket = createTicketToken()
 
   for (let attempt = 0; attempt < 5; attempt += 1) {

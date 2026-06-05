@@ -88,28 +88,28 @@ Use this checklist as the active build tracker. Checked items are already repres
 
 - [x] Add staff active sessions page shell.
 - [x] Add mobile-first check-in form shell.
-- [ ] Build real mobile-first check-in form.
-- [ ] Capture required customer phone.
-- [ ] Capture required vehicle make.
-- [ ] Capture required vehicle model.
-- [ ] Capture required vehicle color.
-- [ ] Capture required license plate.
-- [ ] Capture required key tag.
-- [ ] Capture optional customer name.
-- [ ] Capture optional vehicle notes.
-- [ ] Capture optional parking zone.
-- [ ] Capture optional staff notes.
-- [ ] Generate ticket number.
-- [ ] Generate secure customer ticket token.
-- [ ] Store customer contact, vehicle, session, token, and initial event.
+- [x] Build real mobile-first check-in form.
+- [x] Capture required customer phone.
+- [x] Capture required vehicle make.
+- [x] Capture required vehicle model.
+- [x] Capture required vehicle color.
+- [x] Capture required license plate.
+- [x] Capture required key tag.
+- [x] Capture optional customer name.
+- [x] Capture optional vehicle notes.
+- [x] Capture optional parking zone.
+- [x] Capture optional staff notes.
+- [x] Generate ticket number.
+- [x] Generate secure customer ticket token.
+- [x] Store customer contact, vehicle, session, token, and initial event.
 - [x] Add staff session detail page shell.
-- [ ] Build real staff session detail page.
-- [ ] Show customer-safe ticket link for staff to share manually.
-- [ ] Validate required fields before submit.
+- [x] Build real staff session detail page.
+- [x] Show customer-safe ticket link for staff to share manually.
+- [x] Validate required fields before submit.
 - [ ] Confirm staff can create a session in under one minute.
-- [ ] Show new session in active sessions.
+- [x] Show new session in active sessions.
 - [ ] Confirm session has a ticket number and secure token.
-- [ ] Add `session_created` timeline event.
+- [x] Add `session_created` timeline event.
 
 ### Sprint 3: Customer Digital Ticket
 
