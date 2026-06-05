@@ -11,14 +11,17 @@ This documentation package is designed for business stakeholders, venue partners
 3. [Feature Catalog](product/features.md)
 4. [User Journeys](product/user-journeys.md)
 5. [Product Requirements](product/requirements.md)
-6. [Market and Revenue](business/market-and-revenue.md)
-7. [Valet Operations](operations/valet-operations.md)
-8. [Service Fulfillment](operations/service-fulfillment.md)
-9. [Architecture](technical/architecture.md)
-10. [Data Model](technical/data-model.md)
-11. [Development Roadmap](technical/development-roadmap.md)
-12. [Stakeholder Deck](presentation/crown-valet-stakeholder-deck.md)
-13. [PowerPoint Export Notes](presentation/export-notes.md)
+6. [Design System](product/design-system.md)
+7. [Market and Revenue](business/market-and-revenue.md)
+8. [Valet Operations](operations/valet-operations.md)
+9. [Service Fulfillment](operations/service-fulfillment.md)
+10. [Architecture](technical/architecture.md)
+11. [Data Model](technical/data-model.md)
+12. [Development Roadmap](technical/development-roadmap.md)
+13. [Feature Development Plan](technical/feature-development-plan.md)
+14. [MVP Planning](mvp/README.md)
+15. [Stakeholder Deck](presentation/crown-valet-stakeholder-deck.md)
+16. [PowerPoint Export Notes](presentation/export-notes.md)
 
 ## Product Modules
 
@@ -29,6 +32,15 @@ This documentation package is designed for business stakeholders, venue partners
 - Service marketplace for cleaning, detailing, gas fill-up, EV charging, and partner fulfillment.
 - Notification system for SMS, push, and email updates.
 - Payment system for valet fees, tips, add-ons, refunds, subscriptions, and partner revenue share.
+
+## MVP Planning
+
+The [MVP Planning](mvp/README.md) section defines the first shippable product version for a pilot valet operation. It covers MVP scope, UX flows, technical stack, data schema, implementation phases, and pilot readiness.
+
+## Execution Guides
+
+- The [Feature Development Plan](technical/feature-development-plan.md) translates the product documentation into implementation milestones for the existing Nuxt 3 project.
+- The [Design System](product/design-system.md) defines the visual language, UI components, accessibility rules, and responsive behavior for future product screens.
 
 ## Current Repo Context
 
