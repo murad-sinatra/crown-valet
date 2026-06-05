@@ -4,6 +4,8 @@
 
 Use the existing Nuxt 3 project as the MVP application foundation. The first version should be a web-based product with mobile-optimized screens for customers, staff, and managers.
 
+All MVP development and runtime workflows must run through Docker containers. Local development should use Docker Compose for the Nuxt app, PostgreSQL, Prisma commands, seeds, and tests.
+
 This approach keeps the pilot build small while preserving a path to split into dedicated backend services and native mobile apps later.
 
 ## Recommended MVP Stack
@@ -29,8 +31,22 @@ Use Nuxt for:
 - Server-side validation for all write operations
 - Shared status transition helpers
 - Event creation on every important state change
+- Containerized Nuxt/Nitro runtime
 
 This is enough for the MVP. A separate API service can be introduced later if integrations, native apps, or scaling needs justify it.
+
+### Containers
+
+Required for MVP:
+
+- Dockerfile for the Nuxt application
+- Docker Compose for local app and database services
+- Containerized PostgreSQL for local development and tests
+- Containerized Prisma migration and seed commands
+- Containerized test commands
+- Environment variables passed into containers
+
+Developers should not need to run PostgreSQL, Nuxt, migrations, seeds, or tests directly on the host machine.
 
 ### Database
 
@@ -101,13 +117,13 @@ Notification events:
 
 Recommended MVP options:
 
-- Vercel for Nuxt hosting and server routes
+- Docker-capable hosting for the Nuxt application container
 - Supabase, Neon, or managed PostgreSQL for database
 
 Why:
 
-- Fast setup.
-- Good developer experience.
+- Same app runtime model from local development through pilot deployment.
+- Good developer experience through Docker Compose.
 - Enough for a pilot.
 - Easy environment variable management.
 
@@ -143,6 +159,8 @@ Expected environments:
 - Local development
 - Staging or pilot test
 - Production pilot
+
+Each environment should run the app as a container. Local development should use Docker Compose. Staging and production pilot should use a built application image.
 
 Key environment variables:
 

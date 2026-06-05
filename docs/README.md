@@ -19,9 +19,11 @@ This documentation package is designed for business stakeholders, venue partners
 11. [Data Model](technical/data-model.md)
 12. [Development Roadmap](technical/development-roadmap.md)
 13. [Feature Development Plan](technical/feature-development-plan.md)
-14. [MVP Planning](mvp/README.md)
-15. [Stakeholder Deck](presentation/crown-valet-stakeholder-deck.md)
-16. [PowerPoint Export Notes](presentation/export-notes.md)
+14. [MVP Technical Stack Detail](technical/mvp-technical-stack-detail.md)
+15. [MVP Development Sprint Plan](technical/mvp-development-sprints.md)
+16. [MVP Planning](mvp/README.md)
+17. [Stakeholder Deck](presentation/crown-valet-stakeholder-deck.md)
+18. [PowerPoint Export Notes](presentation/export-notes.md)
 
 ## Product Modules
 
@@ -40,6 +42,8 @@ The [MVP Planning](mvp/README.md) section defines the first shippable product ve
 ## Execution Guides
 
 - The [Feature Development Plan](technical/feature-development-plan.md) translates the product documentation into implementation milestones for the existing Nuxt 3 project.
+- The [MVP Technical Stack Detail](technical/mvp-technical-stack-detail.md) defines the concrete framework, containers, database, auth, hosting, testing, and integration choices for the MVP.
+- The [MVP Development Sprint Plan](technical/mvp-development-sprints.md) organizes the MVP into development sprints, acceptance gates, demos, and deferred scope.
 - The [Design System](product/design-system.md) defines the visual language, UI components, accessibility rules, and responsive behavior for future product screens.
 
 ## Current Repo Context

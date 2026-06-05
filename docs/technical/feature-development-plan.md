@@ -8,6 +8,7 @@ This plan turns the Crown Valet product documentation into an implementation pat
 
 - Build the core valet workflow before payments, marketplace services, or native apps.
 - Keep the first product web-based in Nuxt 3 with mobile-first customer, staff, and manager screens.
+- Run development, database, migrations, seeds, tests, and pilot runtime through Docker containers.
 - Record every operational status change as an event so support, reporting, and audit workflows have a trustworthy source.
 - Make venue configuration part of the foundation instead of hard-coding pilot assumptions into UI flows.
 - Preserve the premium hospitality tone from the landing page while prioritizing speed for curbside staff workflows.
@@ -81,6 +82,7 @@ Goal: prepare the Nuxt app for product routes and shared domain logic.
 Scope:
 
 - Establish route groups for marketing, ticket, staff, and dashboard views.
+- Add Dockerfile, Docker Compose, and containerized local development workflow.
 - Add shared status constants and status transition helpers.
 - Add database and Prisma setup.
 - Add seed data for one venue, manager, and staff user.
@@ -88,7 +90,7 @@ Scope:
 
 Exit criteria:
 
-- App runs locally with seeded pilot data.
+- App runs locally through Docker Compose with seeded pilot data.
 - Staff routes are protected.
 - Status values are shared by frontend and server code.
 

@@ -205,9 +205,10 @@ sequenceDiagram
 The exact stack should be validated before implementation, but a practical first version could use:
 
 - Nuxt or similar web framework for landing page, dashboard, and digital ticket.
+- Docker containers for app runtime, local development, migrations, seeds, and tests.
 - Native or cross-platform mobile app for customer and valet operations.
 - API backend with relational database.
 - Object storage for images.
 - Payment, SMS, push, email, and maps providers.
 
-The architecture should remain modular so the first pilot can launch quickly while leaving room for partner marketplace and multi-venue growth.
+The architecture should remain modular and containerized so the first pilot can launch quickly while leaving room for partner marketplace and multi-venue growth.

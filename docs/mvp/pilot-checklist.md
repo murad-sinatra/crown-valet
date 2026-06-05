@@ -28,6 +28,8 @@ This checklist defines what must be true before Crown Valet is tested in a simul
 ## Pre-Pilot Technical Checklist
 
 - Production or pilot environment is deployed.
+- App runtime is deployed from a container image.
+- Local development and test workflow runs through Docker Compose.
 - Database migrations are applied.
 - Seed venue exists.
 - Staff users are created.
