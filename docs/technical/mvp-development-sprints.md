@@ -22,6 +22,211 @@ Do not start payments, add-on services, native mobile apps, partner workflows, a
 
 Use `docs/technical/mvp-technical-stack-detail.md` as the implementation reference for framework, database, authentication, hosting, testing, and integration choices.
 
+## Sprint Implementation Checklist
+
+Use this checklist as the active build tracker. Checked items are already represented in the current repo; unchecked items remain to be built or verified.
+
+### Sprint 0: Planning and Repo Preparation
+
+- [x] Confirm MVP scope from `docs/mvp/scope.md`.
+- [x] Confirm the seven build phases from `docs/mvp/implementation-phases.md`.
+- [x] Confirm detailed stack choices from `docs/technical/mvp-technical-stack-detail.md`.
+- [x] Review current Nuxt app structure before adding routes.
+- [x] Confirm Docker Compose service names, ports, volumes, and local environment file conventions.
+- [x] Confirm staff auth starts as a simple protected-route shell before the final auth flow.
+- [x] Confirm notifications start with mocked provider configuration.
+- [x] Create a development checklist from this plan.
+- [x] MVP scope is accepted for implementation work.
+- [x] Deferred features are understood.
+- [x] First implementation sprint can begin without unresolved product questions.
+
+### Sprint 1: App Foundation
+
+- [x] Add route shell for `/ticket/[token]`.
+- [x] Add route shell for `/staff`.
+- [x] Add route shell for `/staff/check-in`.
+- [x] Add route shell for `/staff/sessions/[id]`.
+- [x] Add route shell for `/staff/pickup-queue`.
+- [x] Add route shell for `/dashboard`.
+- [x] Add Dockerfile for the Nuxt application.
+- [x] Add Docker Compose for local app and PostgreSQL services.
+- [x] Add `.dockerignore`.
+- [x] Add containerized commands for development, migrations, seeding, and tests.
+- [x] Add shared `checked_in` valet session status.
+- [x] Add shared `being_parked` valet session status.
+- [x] Add shared `parked` valet session status.
+- [x] Add shared `pickup_requested` valet session status.
+- [x] Add shared `runner_assigned` valet session status.
+- [x] Add shared `retrieving` valet session status.
+- [x] Add shared `ready` valet session status.
+- [x] Add shared `completed` valet session status.
+- [x] Add shared `cancelled` valet session status.
+- [x] Add shared `flagged` valet session status.
+- [x] Add server-side status transition helper.
+- [x] Add Prisma and database connection.
+- [x] Create initial schema for venues.
+- [x] Create initial schema for staff users.
+- [x] Create initial schema for customer contacts.
+- [x] Create initial schema for vehicles.
+- [x] Create initial schema for valet sessions.
+- [x] Create initial schema for ticket tokens.
+- [x] Create initial schema for parking locations.
+- [x] Create initial schema for pickup requests.
+- [x] Create initial schema for session events.
+- [x] Create initial schema for notification logs.
+- [x] Add seed data for one venue, one manager, and at least one staff user.
+- [x] Add product layout stubs for customer, staff, and dashboard screens.
+- [x] Document required environment variables.
+- [x] App runs through Docker Compose.
+- [x] Database runs through Docker Compose locally.
+- [ ] Verify migrations apply cleanly from a fresh database.
+- [ ] Verify seed data loads from a fresh database.
+- [x] Staff routes are not publicly accessible.
+- [x] Status constants are shared by client and server code.
+
+### Sprint 2: Staff Check-In
+
+- [x] Add staff active sessions page shell.
+- [x] Add mobile-first check-in form shell.
+- [ ] Build real mobile-first check-in form.
+- [ ] Capture required customer phone.
+- [ ] Capture required vehicle make.
+- [ ] Capture required vehicle model.
+- [ ] Capture required vehicle color.
+- [ ] Capture required license plate.
+- [ ] Capture required key tag.
+- [ ] Capture optional customer name.
+- [ ] Capture optional vehicle notes.
+- [ ] Capture optional parking zone.
+- [ ] Capture optional staff notes.
+- [ ] Generate ticket number.
+- [ ] Generate secure customer ticket token.
+- [ ] Store customer contact, vehicle, session, token, and initial event.
+- [x] Add staff session detail page shell.
+- [ ] Build real staff session detail page.
+- [ ] Show customer-safe ticket link for staff to share manually.
+- [ ] Validate required fields before submit.
+- [ ] Confirm staff can create a session in under one minute.
+- [ ] Show new session in active sessions.
+- [ ] Confirm session has a ticket number and secure token.
+- [ ] Add `session_created` timeline event.
+
+### Sprint 3: Customer Digital Ticket
+
+- [x] Add `/ticket/[token]` route shell.
+- [ ] Implement `/ticket/[token]` lookup.
+- [ ] Show venue name.
+- [ ] Show ticket number.
+- [ ] Show vehicle summary.
+- [ ] Show current customer-facing status.
+- [ ] Show last updated time.
+- [ ] Show visible timeline events.
+- [ ] Show pickup instructions.
+- [ ] Add invalid token state.
+- [ ] Add expired token state.
+- [ ] Add completed session state.
+- [ ] Add loading state.
+- [ ] Add error state.
+- [ ] Add pickup request button only when session status allows pickup.
+- [ ] Keep staff notes hidden from customer ticket pages.
+- [ ] Keep internal IDs hidden from customer ticket pages.
+- [ ] Keep exact staff-only location details hidden from customer ticket pages.
+- [ ] Verify valid token opens the correct ticket.
+- [ ] Verify invalid token shows safe error copy.
+- [ ] Verify ticket works on mobile width.
+- [ ] Verify customer timeline matches visible session events.
+- [ ] Verify pickup button appears only for eligible sessions.
+
+### Sprint 4: Parking Status and Pickup Queue
+
+- [ ] Add parking location form to staff session detail.
+- [ ] Add status update controls for being parked.
+- [ ] Add status update controls for parked.
+- [ ] Add status update controls for flagged.
+- [ ] Add status update controls for cancelled.
+- [ ] Implement customer pickup request endpoint.
+- [x] Add pickup request schema.
+- [ ] Create pickup request records from customer action.
+- [ ] Update valet session status to `pickup_requested`.
+- [x] Add staff pickup queue route shell.
+- [ ] Build real staff pickup queue sorted by request time.
+- [ ] Add queue item detail or inline queue actions.
+- [ ] Add runner assignment.
+- [x] Add `runner_assigned` status transition definition.
+- [x] Add `retrieving` status transition definition.
+- [x] Add `ready` status transition definition.
+- [x] Add `completed` status transition definition.
+- [x] Add `cancelled` status transition definition.
+- [x] Add timestamp fields for pickup requested, assigned, retrieving, ready, and completed.
+- [x] Add session event schema.
+- [ ] Create session events for each status change.
+- [ ] Verify staff can mark a vehicle parked and add location notes.
+- [ ] Verify customer can request pickup from the ticket page.
+- [ ] Verify pickup request appears in the staff queue.
+- [ ] Verify staff can move request through retrieving, ready, and completed.
+- [ ] Verify customer ticket reflects pickup changes.
+- [ ] Verify completed session leaves active queue.
+- [ ] Block duplicate active pickup requests.
+
+### Sprint 5: Basic Notifications
+
+- [ ] Add notification service interface.
+- [ ] Add local/mock notification provider for development.
+- [x] Add mock notification provider environment configuration.
+- [x] Add provider configuration fields for pilot SMS credentials.
+- [ ] Send or mock ticket link.
+- [ ] Send or mock pickup request confirmation.
+- [ ] Send or mock vehicle ready alert.
+- [x] Add `notification_logs` schema.
+- [ ] Record notification attempts in `notification_logs`.
+- [ ] Add visible failure state for staff or manager.
+- [ ] Add resend ticket action.
+- [ ] Verify local development works without live provider credentials.
+- [ ] Verify notification attempts are logged.
+- [ ] Verify failed notifications are visible.
+- [ ] Verify staff can resend a ticket link.
+- [ ] Verify ready notification is triggered when vehicle becomes ready.
+
+### Sprint 6: Manager Dashboard
+
+- [x] Add dashboard overview route shell.
+- [ ] Add active sessions by status.
+- [ ] Add pickup queue summary.
+- [ ] Add delayed and flagged sessions.
+- [ ] Add completed sessions today.
+- [ ] Add average pickup wait time.
+- [ ] Add basic session search or history.
+- [x] Protect dashboard route behind staff session middleware.
+- [ ] Add manager-only route access.
+- [ ] Link dashboard items to session detail.
+- [ ] Verify manager can see active operational state at a glance.
+- [ ] Verify metrics come from real session data.
+- [ ] Verify manager can open a session from dashboard lists.
+- [ ] Verify daily history includes completed sessions.
+- [ ] Verify flagged sessions are obvious.
+
+### Sprint 7: Pilot Hardening
+
+- [ ] Add missing empty states.
+- [ ] Add missing loading states.
+- [ ] Add clear error states.
+- [ ] Add manager manual override rules where needed.
+- [ ] Run mobile responsiveness pass for ticket and staff screens.
+- [ ] Run basic accessibility pass.
+- [x] Add focused tests around status transitions.
+- [ ] Add focused tests around ticket token access.
+- [ ] Add focused tests around pickup request creation.
+- [ ] Add focused tests around session event creation.
+- [ ] Add end-to-end test for the full valet loop if tooling supports it.
+- [ ] Update pilot checklist with actual readiness.
+- [ ] Document known limitations.
+- [ ] Verify full simulated shift passes without manual database edits.
+- [ ] Verify staff flows work on phone screens.
+- [ ] Verify customer ticket works on mobile Safari and Chrome.
+- [ ] Verify manager can identify and resolve a flagged session.
+- [ ] Verify common errors have understandable messages.
+- [ ] Verify known limitations are documented before pilot.
+
 ## Delivery Rules
 
 - Work from the existing Nuxt 3 app.

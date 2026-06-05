@@ -10,10 +10,15 @@
   --color-line: rgba(17, 24, 39, 0.1);
   --color-success-bg: #e9f7ef;
   --color-success: #1c7d43;
+  --letter-spacing-base: -0.01em;
+  --letter-spacing-display: -0.04em;
+  --letter-spacing-hero: -0.035em;
+  --letter-spacing-wide: 0.18em;
   color: #182033;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+  letter-spacing: var(--letter-spacing-base);
   background: var(--color-sand);
 }
 
@@ -22,10 +27,11 @@
 }
 
 body {
-  margin: 0;
   background:
     radial-gradient(circle at top left, rgba(205, 161, 87, 0.28), transparent 34rem),
     linear-gradient(135deg, var(--color-paper) 0%, #f6efe5 50%, #edf1f6 100%);
+  letter-spacing: var(--letter-spacing-base);
+  margin: 0;
 }
 
 a {
@@ -38,23 +44,24 @@ input,
 select,
 textarea {
   font: inherit;
+  letter-spacing: inherit;
 }
 
 .page-shell {
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .hero {
-  min-height: 100vh;
-  padding: 28px clamp(20px, 5vw, 72px) 72px;
+  min-height: min(860px, 100svh);
+  padding: 24px clamp(20px, 5vw, 72px) 64px;
 }
 
 .nav {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin: 0 auto 72px;
+  margin: 0 auto clamp(44px, 7vw, 68px);
   max-width: 1180px;
 }
 
@@ -70,7 +77,7 @@ textarea {
   font-size: 1.05rem;
   font-weight: 800;
   gap: 12px;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--letter-spacing-base);
 }
 
 .brand-mark {
@@ -93,8 +100,8 @@ textarea {
 .hero-grid {
   align-items: center;
   display: grid;
-  gap: clamp(40px, 8vw, 96px);
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  gap: clamp(36px, 6vw, 80px);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
   margin: 0 auto;
   max-width: 1180px;
 }
@@ -104,21 +111,22 @@ textarea {
 .how-it-works h2,
 .cta h2 {
   color: var(--color-ink);
-  letter-spacing: -0.06em;
+  letter-spacing: var(--letter-spacing-display);
   line-height: 0.95;
   margin: 0;
 }
 
 .hero-copy h1 {
-  font-size: clamp(3.8rem, 8vw, 6.8rem);
-  max-width: 760px;
+  font-size: clamp(3.4rem, 7vw, 6.1rem);
+  letter-spacing: var(--letter-spacing-hero);
+  max-width: 700px;
 }
 
 .eyebrow {
   color: var(--color-gold-deep);
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.18em;
+  letter-spacing: var(--letter-spacing-wide);
   margin: 0 0 18px;
   text-transform: uppercase;
 }
@@ -127,14 +135,14 @@ textarea {
   color: #505b6d;
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   line-height: 1.7;
-  margin: 28px 0 0;
-  max-width: 640px;
+  margin: 24px 0 0;
+  max-width: 600px;
 }
 
 .hero-actions {
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 36px;
+  margin-top: 32px;
 }
 
 .button {
@@ -172,7 +180,7 @@ textarea {
   flex-wrap: wrap;
   font-size: 0.95rem;
   gap: 12px;
-  margin-top: 34px;
+  margin-top: 28px;
 }
 
 .trust-row span {
@@ -191,9 +199,9 @@ textarea {
     inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   color: #fff;
   justify-self: center;
-  max-width: 390px;
-  min-height: 650px;
-  padding: 26px;
+  max-width: 370px;
+  min-height: 600px;
+  padding: 24px;
   position: relative;
   width: 100%;
 }
@@ -213,7 +221,7 @@ textarea {
 .phone-header {
   display: flex;
   justify-content: space-between;
-  margin: 24px 0 26px;
+  margin: 22px 0 22px;
 }
 
 .phone-header span {
@@ -252,7 +260,7 @@ textarea {
 .status-card strong {
   display: block;
   font-size: 3.8rem;
-  letter-spacing: -0.08em;
+  letter-spacing: var(--letter-spacing-hero);
 }
 
 .map-card {
@@ -262,7 +270,7 @@ textarea {
     linear-gradient(145deg, #344267, #1e263e);
   background-size: 54px 54px, 54px 54px, auto;
   border-radius: 30px;
-  height: 260px;
+  height: 238px;
   overflow: hidden;
   position: relative;
 }
@@ -374,7 +382,7 @@ textarea {
 
 .feature-card h3 {
   font-size: 1.45rem;
-  letter-spacing: -0.04em;
+  letter-spacing: var(--letter-spacing-display);
   margin: 44px 0 12px;
 }
 
@@ -426,14 +434,18 @@ textarea {
 }
 
 .stats div {
+  align-items: center;
   background: rgba(255, 255, 255, 0.54);
+  display: flex;
+  flex-direction: column;
   padding: 34px;
+  text-align: center;
 }
 
 .stats strong {
   display: block;
   font-size: clamp(2rem, 4vw, 3.5rem);
-  letter-spacing: -0.06em;
+  letter-spacing: var(--letter-spacing-hero);
 }
 
 .stats span {
@@ -441,10 +453,17 @@ textarea {
 }
 
 .cta {
+  align-items: center;
   border-radius: 42px;
+  display: flex;
+  flex-direction: column;
   margin-bottom: 72px;
   margin-top: 96px;
   text-align: center;
+}
+
+.cta h2 {
+  margin-inline: auto;
 }
 
 .cta .button {
@@ -504,7 +523,7 @@ textarea {
 .page-header h1 {
   color: var(--color-ink);
   font-size: clamp(2rem, 5vw, 3.8rem);
-  letter-spacing: -0.06em;
+  letter-spacing: var(--letter-spacing-display);
   line-height: 0.98;
   margin: 0;
 }
@@ -573,7 +592,8 @@ textarea {
   }
 
   .hero {
-    padding-bottom: 40px;
+    min-height: auto;
+    padding-bottom: 56px;
   }
 
   .hero-grid,
@@ -583,11 +603,12 @@ textarea {
   }
 
   .hero-copy h1 {
-    font-size: clamp(3.2rem, 16vw, 5.3rem);
+    font-size: clamp(3rem, 13vw, 5rem);
   }
 
   .phone-card {
-    min-height: 580px;
+    max-width: 360px;
+    min-height: 560px;
   }
 
   .section-heading {
@@ -603,7 +624,28 @@ textarea {
 
 @media (max-width: 560px) {
   .hero {
+    padding-top: 18px;
     padding-inline: 18px;
+  }
+
+  .nav {
+    margin-bottom: 40px;
+  }
+
+  .brand-mark {
+    border-radius: 12px;
+    height: 40px;
+    width: 40px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.75rem, 13vw, 4rem);
+  }
+
+  .hero-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-top: 20px;
   }
 
   .hero-actions,
@@ -616,6 +658,10 @@ textarea {
     border-radius: 36px;
     min-height: auto;
     padding: 18px;
+  }
+
+  .phone-header {
+    margin: 18px 0;
   }
 
   .map-card {
