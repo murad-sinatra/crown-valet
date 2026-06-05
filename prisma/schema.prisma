@@ -1,0 +1,287 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StaffRole {
+  attendant
+  runner
+  manager
+  admin
+}
+
+enum ContactMethod {
+  sms
+  email
+  none
+}
+
+enum ValetSessionStatus {
+  checked_in
+  being_parked
+  parked
+  pickup_requested
+  runner_assigned
+  retrieving
+  ready
+  completed
+  cancelled
+  flagged
+}
+
+enum TicketTokenStatus {
+  active
+  revoked
+  expired
+}
+
+enum PickupRequestedByType {
+  customer
+  staff
+}
+
+enum PickupRequestStatus {
+  requested
+  assigned
+  retrieving
+  ready
+  completed
+  cancelled
+}
+
+enum SessionActorType {
+  customer
+  staff
+  system
+}
+
+enum NotificationChannel {
+  sms
+  email
+}
+
+enum NotificationType {
+  ticket_link
+  pickup_requested
+  vehicle_ready
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  failed
+  skipped
+}
+
+model Venue {
+  id              String         @id @default(cuid())
+  name            String
+  slug            String         @unique
+  addressLine1    String         @map("address_line_1")
+  addressLine2    String?        @map("address_line_2")
+  city            String
+  state           String
+  postalCode      String         @map("postal_code")
+  timezone        String
+  valetPhone      String?        @map("valet_phone")
+  operatingStatus String         @default("active") @map("operating_status")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  staffUsers      StaffUser[]
+  valetSessions   ValetSession[]
+
+  @@map("venues")
+}
+
+model StaffUser {
+  id                         String            @id @default(cuid())
+  venueId                    String            @map("venue_id")
+  name                       String
+  email                      String            @unique
+  phone                      String?
+  role                       StaffRole
+  authProviderId             String?           @map("auth_provider_id")
+  active                     Boolean           @default(true)
+  lastLoginAt                DateTime?         @map("last_login_at")
+  createdAt                  DateTime          @default(now()) @map("created_at")
+  updatedAt                  DateTime          @updatedAt @map("updated_at")
+  venue                      Venue             @relation(fields: [venueId], references: [id])
+  createdSessions            ValetSession[]    @relation("CreatedSessions")
+  assignedSessions           ValetSession[]    @relation("AssignedSessions")
+  recordedParkingLocations   ParkingLocation[]
+  requestedPickupRequests    PickupRequest[]   @relation("RequestedPickupRequests")
+  assignedPickupRequests     PickupRequest[]   @relation("AssignedPickupRequests")
+  sessionEvents              SessionEvent[]
+
+  @@map("staff_users")
+}
+
+model CustomerContact {
+  id                     String            @id @default(cuid())
+  name                   String?
+  phone                  String
+  email                  String?
+  preferredContactMethod ContactMethod     @default(sms) @map("preferred_contact_method")
+  createdAt              DateTime          @default(now()) @map("created_at")
+  updatedAt              DateTime          @updatedAt @map("updated_at")
+  vehicles               Vehicle[]
+  valetSessions          ValetSession[]
+  notificationLogs       NotificationLog[]
+
+  @@map("customer_contacts")
+}
+
+model Vehicle {
+  id                String          @id @default(cuid())
+  customerContactId String          @map("customer_contact_id")
+  make              String
+  model             String
+  color             String
+  licensePlate      String          @map("license_plate")
+  licensePlateState String?         @map("license_plate_state")
+  notes             String?
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  customerContact   CustomerContact @relation(fields: [customerContactId], references: [id])
+  valetSessions     ValetSession[]
+
+  @@map("vehicles")
+}
+
+model ValetSession {
+  id                String             @id @default(cuid())
+  venueId           String             @map("venue_id")
+  customerContactId String             @map("customer_contact_id")
+  vehicleId         String             @map("vehicle_id")
+  ticketNumber      String             @map("ticket_number")
+  keyTag            String             @map("key_tag")
+  status            ValetSessionStatus @default(checked_in)
+  staffCreatedById  String             @map("staff_created_by_id")
+  assignedRunnerId  String?            @map("assigned_runner_id")
+  checkedInAt       DateTime           @default(now()) @map("checked_in_at")
+  parkedAt          DateTime?          @map("parked_at")
+  pickupRequestedAt DateTime?          @map("pickup_requested_at")
+  readyAt           DateTime?          @map("ready_at")
+  completedAt       DateTime?          @map("completed_at")
+  cancelledAt       DateTime?          @map("cancelled_at")
+  flaggedAt         DateTime?          @map("flagged_at")
+  flagReason        String?            @map("flag_reason")
+  staffNotes        String?            @map("staff_notes")
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+  venue             Venue              @relation(fields: [venueId], references: [id])
+  customerContact   CustomerContact    @relation(fields: [customerContactId], references: [id])
+  vehicle           Vehicle            @relation(fields: [vehicleId], references: [id])
+  staffCreatedBy    StaffUser          @relation("CreatedSessions", fields: [staffCreatedById], references: [id])
+  assignedRunner    StaffUser?         @relation("AssignedSessions", fields: [assignedRunnerId], references: [id])
+  ticketTokens      TicketToken[]
+  parkingLocations  ParkingLocation[]
+  pickupRequests    PickupRequest[]
+  sessionEvents     SessionEvent[]
+  notificationLogs  NotificationLog[]
+
+  @@unique([venueId, ticketNumber])
+  @@index([venueId, status])
+  @@map("valet_sessions")
+}
+
+model TicketToken {
+  id             String            @id @default(cuid())
+  valetSessionId String            @map("valet_session_id")
+  tokenHash      String            @unique @map("token_hash")
+  lastFourHint   String            @map("last_four_hint")
+  status         TicketTokenStatus @default(active)
+  issuedAt       DateTime          @default(now()) @map("issued_at")
+  expiresAt      DateTime?         @map("expires_at")
+  lastAccessedAt DateTime?         @map("last_accessed_at")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  valetSession   ValetSession      @relation(fields: [valetSessionId], references: [id])
+
+  @@map("ticket_tokens")
+}
+
+model ParkingLocation {
+  id             String       @id @default(cuid())
+  valetSessionId String       @map("valet_session_id")
+  zone           String?
+  floor          String?
+  row            String?
+  stall          String?
+  note           String?
+  recordedById   String       @map("recorded_by_id")
+  recordedAt     DateTime     @default(now()) @map("recorded_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  valetSession   ValetSession @relation(fields: [valetSessionId], references: [id])
+  recordedBy     StaffUser    @relation(fields: [recordedById], references: [id])
+
+  @@map("parking_locations")
+}
+
+model PickupRequest {
+  id                 String                @id @default(cuid())
+  valetSessionId     String                @map("valet_session_id")
+  requestedByType    PickupRequestedByType @map("requested_by_type")
+  requestedByStaffId String?               @map("requested_by_staff_id")
+  status             PickupRequestStatus   @default(requested)
+  assignedRunnerId   String?               @map("assigned_runner_id")
+  requestedAt        DateTime              @default(now()) @map("requested_at")
+  assignedAt         DateTime?             @map("assigned_at")
+  retrievingAt       DateTime?             @map("retrieving_at")
+  readyAt            DateTime?             @map("ready_at")
+  completedAt        DateTime?             @map("completed_at")
+  cancelledAt        DateTime?             @map("cancelled_at")
+  cancelReason       String?               @map("cancel_reason")
+  delayReason        String?               @map("delay_reason")
+  createdAt          DateTime              @default(now()) @map("created_at")
+  updatedAt          DateTime              @updatedAt @map("updated_at")
+  valetSession       ValetSession          @relation(fields: [valetSessionId], references: [id])
+  requestedByStaff   StaffUser?            @relation("RequestedPickupRequests", fields: [requestedByStaffId], references: [id])
+  assignedRunner     StaffUser?            @relation("AssignedPickupRequests", fields: [assignedRunnerId], references: [id])
+
+  @@index([status, requestedAt])
+  @@map("pickup_requests")
+}
+
+model SessionEvent {
+  id              String           @id @default(cuid())
+  valetSessionId  String           @map("valet_session_id")
+  eventType       String           @map("event_type")
+  actorType       SessionActorType @map("actor_type")
+  actorStaffId    String?          @map("actor_staff_id")
+  title           String
+  description     String?
+  visibleToCustomer Boolean        @default(false) @map("visible_to_customer")
+  metadataJson    Json?            @map("metadata_json")
+  occurredAt      DateTime         @default(now()) @map("occurred_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  valetSession    ValetSession     @relation(fields: [valetSessionId], references: [id])
+  actorStaff      StaffUser?       @relation(fields: [actorStaffId], references: [id])
+
+  @@index([valetSessionId, occurredAt])
+  @@map("session_events")
+}
+
+model NotificationLog {
+  id                String              @id @default(cuid())
+  valetSessionId    String              @map("valet_session_id")
+  customerContactId String              @map("customer_contact_id")
+  channel           NotificationChannel
+  notificationType  NotificationType    @map("notification_type")
+  destination       String
+  status            NotificationStatus  @default(pending)
+  provider          String
+  providerMessageId String?             @map("provider_message_id")
+  errorMessage      String?             @map("error_message")
+  sentAt            DateTime?           @map("sent_at")
+  createdAt         DateTime            @default(now()) @map("created_at")
+  valetSession      ValetSession        @relation(fields: [valetSessionId], references: [id])
+  customerContact   CustomerContact     @relation(fields: [customerContactId], references: [id])
+
+  @@index([status, createdAt])
+  @@map("notification_logs")
+}

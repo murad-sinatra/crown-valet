@@ -1,0 +1,52 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://crown_valet:crown_valet@db:5432/crown_valet?schema=public}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3001}
+      CHOKIDAR_INTERVAL: ${CHOKIDAR_INTERVAL:-250}
+      CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
+      NUXT_HOST: 0.0.0.0
+      NUXT_HMR_CLIENT_PORT: ${APP_PORT:-3001}
+      NUXT_APP_BASE_URL: ${NUXT_APP_BASE_URL:-/}
+      NUXT_DEV_WATCH_POLLING: ${NUXT_DEV_WATCH_POLLING:-true}
+      NUXT_PORT: 3000
+      STAFF_AUTH_SECRET: ${STAFF_AUTH_SECRET:-local-dev-staff-auth-secret}
+      TICKET_TOKEN_SECRET: ${TICKET_TOKEN_SECRET:-local-dev-ticket-token-secret}
+      SMS_PROVIDER: ${SMS_PROVIDER:-mock}
+      SMS_PROVIDER_API_KEY: ${SMS_PROVIDER_API_KEY:-}
+      SMS_FROM_NUMBER: ${SMS_FROM_NUMBER:-}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-mock}
+      EMAIL_PROVIDER_API_KEY: ${EMAIL_PROVIDER_API_KEY:-}
+      WATCHPACK_POLLING: ${WATCHPACK_POLLING:-true}
+    ports:
+      - "${APP_PORT:-3001}:3000"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: crown_valet
+      POSTGRES_USER: crown_valet
+      POSTGRES_PASSWORD: crown_valet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crown_valet -d crown_valet"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  node_modules:
+  postgres_data:

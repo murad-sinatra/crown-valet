@@ -6,13 +6,42 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "test": "vitest run",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "docker:dev": "docker compose up app db",
+    "docker:dev:detached": "docker compose up -d app db",
+    "docker:build": "docker compose build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f app",
+    "docker:restart:app": "docker compose restart app",
+    "docker:test": "docker compose exec app npm run test",
+    "docker:db:generate": "docker compose run --rm app npm run db:generate",
+    "docker:db:migrate": "docker compose exec app npm run db:migrate",
+    "docker:db:seed": "docker compose exec app npm run db:seed"
   },
   "engines": {
     "node": ">=20.19.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
-    "nuxt": "^3.17.7"
+    "@types/pg": "^8.20.0",
+    "nuxt": "^3.17.7",
+    "prisma": "^7.8.0",
+    "tsx": "^4.22.4",
+    "vitest": "^4.1.8"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "pg": "^8.21.0",
+    "zod": "^4.4.3"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
