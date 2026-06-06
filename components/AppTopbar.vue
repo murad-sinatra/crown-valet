@@ -1,8 +1,7 @@
 <template>
   <header class="app-topbar">
-    <NuxtLink class="brand" to="/">
-      <span class="brand-mark">CV</span>
-      Crown Valet
+    <NuxtLink class="brand brand--logo" to="/" aria-label="Crown Valet home">
+      <img class="brand-logo" src="/logo.png" alt="Crown Valet">
     </NuxtLink>
 
     <nav class="app-nav" aria-label="Product navigation">

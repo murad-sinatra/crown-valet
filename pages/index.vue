@@ -2,9 +2,8 @@
   <main class="page-shell">
     <section class="hero">
       <nav class="nav" aria-label="Primary navigation">
-        <a class="brand" href="#">
-          <span class="brand-mark">CV</span>
-          Crown Valet
+        <a class="brand brand--logo" href="#" aria-label="Crown Valet home">
+          <img class="brand-logo brand-logo--home" src="/logo.png" alt="Crown Valet">
         </a>
 
         <div class="nav-links">

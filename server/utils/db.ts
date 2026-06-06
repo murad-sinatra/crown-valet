@@ -1,9 +1,14 @@
+import { createRequire } from 'node:module'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { Pool } from 'pg'
-import { PrismaClient } from '../../generated/prisma/client'
+
+const require = createRequire(import.meta.url)
+const { PrismaClient } = require('@prisma/client') as {
+  PrismaClient: typeof import('../../generated/prisma/client').PrismaClient
+}
 
 const globalForPrisma = globalThis as unknown as {
-  prisma?: PrismaClient
+  prisma?: InstanceType<typeof PrismaClient>
   prismaPool?: Pool
 }
 

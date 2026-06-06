@@ -18,6 +18,12 @@ export default defineNuxtConfig({
           content:
             'Crown Valet is a premium valet parking app for effortless drop-off, secure parking, and quick vehicle return.',
         },
+        { property: 'og:image', content: '/logo.png' },
+        { name: 'twitter:image', content: '/logo.png' },
+      ],
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/favicon.png' },
+        { rel: 'apple-touch-icon', href: '/favicon.png' },
       ],
     },
   },
