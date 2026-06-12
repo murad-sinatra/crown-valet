@@ -105,6 +105,7 @@ model StaffUser {
   phone                      String?
   role                       StaffRole
   authProviderId             String?           @map("auth_provider_id")
+  passwordHash               String?           @map("password_hash")
   active                     Boolean           @default(true)
   lastLoginAt                DateTime?         @map("last_login_at")
   createdAt                  DateTime          @default(now()) @map("created_at")

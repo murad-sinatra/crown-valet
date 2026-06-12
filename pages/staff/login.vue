@@ -1,11 +1,27 @@
 <script setup lang="ts">
-const staffSession = useCookie('cv_staff_session', {
-  sameSite: 'lax',
-})
+const form = reactive({ email: '', password: '' })
+const isSubmitting = ref(false)
+const errorMessage = ref('')
 
-function enterPilotMode() {
-  staffSession.value = 'attendant@crownvalet.test'
-  return navigateTo('/staff')
+async function login() {
+  errorMessage.value = ''
+  isSubmitting.value = true
+
+  try {
+    await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: form,
+    })
+    await navigateTo('/staff')
+  } catch (error: unknown) {
+    const msg =
+      error && typeof error === 'object' && 'data' in error
+        ? (error as { data?: { statusMessage?: string } }).data?.statusMessage
+        : undefined
+    errorMessage.value = msg ?? 'Login failed. Please try again.'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -17,16 +33,45 @@ function enterPilotMode() {
       <PageHeader
         eyebrow="Staff login"
         title="Access Crown Valet operations"
-        description="Use the seeded pilot staff session to access local operations while the final authentication provider is pending."
+        description="Sign in with your email and password to access staff operations."
       />
 
       <section class="app-card">
-        <h2>Pilot staff access</h2>
-        <p>
-          This starts a local attendant session for the MVP workflow. Production authentication
-          will replace this before pilot launch.
-        </p>
-        <button class="button primary" type="button" @click="enterPilotMode">Enter staff operations</button>
+        <form class="check-in-form" @submit.prevent="login">
+          <div class="form-section">
+            <label class="field">
+              <span>Email</span>
+              <input
+                v-model="form.email"
+                type="email"
+                autocomplete="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+              >
+            </label>
+
+            <label class="field">
+              <span>Password</span>
+              <input
+                v-model="form.password"
+                type="password"
+                autocomplete="current-password"
+                name="password"
+                placeholder="••••••••"
+                required
+              >
+            </label>
+          </div>
+
+          <p v-if="errorMessage" class="form-error">{{ errorMessage }}</p>
+
+          <div class="form-submit">
+            <button class="button primary" type="submit" :disabled="isSubmitting">
+              {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
+            </button>
+          </div>
+        </form>
       </section>
     </div>
   </main>

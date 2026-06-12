@@ -701,6 +701,15 @@ textarea {
   padding: 14px 16px;
 }
 
+.form-success {
+  background: rgba(24, 130, 24, 0.10);
+  border: 1px solid rgba(24, 130, 24, 0.22);
+  border-radius: 16px;
+  color: #1a5c1a;
+  margin: 0;
+  padding: 14px 16px;
+}
+
 .muted-copy {
   color: var(--color-muted);
   line-height: 1.65;

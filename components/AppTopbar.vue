@@ -9,6 +9,7 @@
       <NuxtLink to="/staff/check-in">Check-in</NuxtLink>
       <NuxtLink to="/staff/pickup-queue">Pickup queue</NuxtLink>
       <NuxtLink to="/dashboard">Dashboard</NuxtLink>
+      <NuxtLink to="/staff/profile">Profile</NuxtLink>
     </nav>
   </header>
 </template>
