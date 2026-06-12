@@ -4,7 +4,7 @@ import { Pool } from 'pg'
 
 const require = createRequire(import.meta.url)
 const { PrismaClient } = require('@prisma/client') as {
-  PrismaClient: typeof import('../../generated/prisma/client').PrismaClient
+  PrismaClient: typeof import('@prisma/client').PrismaClient
 }
 
 const globalForPrisma = globalThis as unknown as {
