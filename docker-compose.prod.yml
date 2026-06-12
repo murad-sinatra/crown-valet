@@ -1,0 +1,33 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://crown_valet:crown_valet@db:5432/crown_valet}
+      NODE_ENV: production
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-crown_valet}
+      POSTGRES_USER: ${POSTGRES_USER:-crown_valet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-crown_valet}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-crown_valet} -d ${POSTGRES_DB:-crown_valet}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

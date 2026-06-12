@@ -1,7 +1,6 @@
 .nuxt
 .output
 node_modules
-generated/prisma
 .env
 .env.*
 npm-debug.log*
