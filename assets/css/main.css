@@ -950,3 +950,49 @@ textarea {
     padding-inline: 18px;
   }
 }
+
+.service-table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+.service-table th {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 6px 10px 10px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.service-table td {
+  border-top: 1px solid var(--color-line);
+  padding: 10px;
+  vertical-align: middle;
+}
+
+.status-chip {
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.status-chip--in_progress {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-chip--completed {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.status-chip--cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}

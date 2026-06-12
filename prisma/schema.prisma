@@ -77,6 +77,21 @@ enum NotificationStatus {
   skipped
 }
 
+enum ServiceRequestType {
+  gas_fillup
+  ev_charge
+  clean
+  tire_check
+  other
+}
+
+enum ServiceRequestStatus {
+  pending
+  in_progress
+  completed
+  cancelled
+}
+
 model Venue {
   id              String         @id @default(cuid())
   name            String
@@ -184,6 +199,7 @@ model ValetSession {
   pickupRequests    PickupRequest[]
   sessionEvents     SessionEvent[]
   notificationLogs  NotificationLog[]
+  serviceRequests   ServiceRequest[]
 
   @@unique([venueId, ticketNumber])
   @@index([venueId, status])
@@ -265,6 +281,23 @@ model SessionEvent {
 
   @@index([valetSessionId, occurredAt])
   @@map("session_events")
+}
+
+model ServiceRequest {
+  id             String               @id @default(cuid())
+  valetSessionId String               @map("valet_session_id")
+  serviceType    ServiceRequestType   @map("service_type")
+  status         ServiceRequestStatus @default(pending)
+  notes          String?
+  staffNotes     String?              @map("staff_notes")
+  requestedAt    DateTime             @default(now()) @map("requested_at")
+  completedAt    DateTime?            @map("completed_at")
+  createdAt      DateTime             @default(now()) @map("created_at")
+  updatedAt      DateTime             @updatedAt @map("updated_at")
+  valetSession   ValetSession         @relation(fields: [valetSessionId], references: [id])
+
+  @@index([valetSessionId, requestedAt])
+  @@map("service_requests")
 }
 
 model NotificationLog {

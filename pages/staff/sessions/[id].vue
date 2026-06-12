@@ -100,6 +100,30 @@ onMounted(() => {
           <p class="muted-copy">{{ session.vehicle.notes || 'No vehicle notes recorded.' }}</p>
         </section>
 
+        <section v-if="session.serviceRequests?.length" class="app-card">
+          <h2>Service requests</h2>
+          <table class="service-table">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Notes</th>
+                <th>Status</th>
+                <th>Requested</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="req in session.serviceRequests" :key="req.id">
+                <td>{{ req.serviceType.replace('_', ' ') }}</td>
+                <td>{{ req.notes || '—' }}</td>
+                <td>
+                  <span class="status-chip" :class="`status-chip--${req.status}`">{{ req.status.replace('_', ' ') }}</span>
+                </td>
+                <td class="muted-copy">{{ new Date(req.requestedAt).toLocaleString() }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
         <section class="app-card detail-timeline">
           <h2>Session timeline</h2>
           <ol class="timeline-list">
