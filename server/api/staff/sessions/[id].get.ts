@@ -36,6 +36,9 @@ export default defineEventHandler(async (event) => {
       sessionEvents: {
         orderBy: { occurredAt: 'desc' },
       },
+      serviceRequests: {
+        orderBy: { requestedAt: 'desc' },
+      },
     },
   })
 
@@ -89,6 +92,15 @@ export default defineEventHandler(async (event) => {
       description: event.description,
       visibleToCustomer: event.visibleToCustomer,
       occurredAt: event.occurredAt,
+    })),
+    serviceRequests: session.serviceRequests.map((r) => ({
+      id: r.id,
+      serviceType: r.serviceType,
+      status: r.status,
+      notes: r.notes,
+      staffNotes: r.staffNotes,
+      requestedAt: r.requestedAt,
+      completedAt: r.completedAt,
     })),
   }
 })
