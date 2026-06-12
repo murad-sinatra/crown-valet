@@ -191,7 +191,8 @@ const selectedOption = computed(() =>
       </template>
 
       <!-- Service request panel -->
-      <Teleport to="body">
+      <ClientOnly>
+        <Teleport to="body">
         <div v-if="showRequestPanel" class="panel-overlay" @click.self="closePanel">
           <div class="panel-sheet">
             <button class="panel-close" type="button" aria-label="Close" @click="closePanel">✕</button>
@@ -235,6 +236,7 @@ const selectedOption = computed(() =>
           </div>
         </div>
       </Teleport>
+      </ClientOnly>
 
     </div>
   </main>
