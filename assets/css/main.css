@@ -116,6 +116,19 @@ textarea {
   gap: 28px;
 }
 
+.nav-login {
+  background: #111827;
+  border-radius: 6px;
+  color: #fff !important;
+  font-weight: 600;
+  padding: 8px 18px;
+  transition: background 0.15s;
+}
+
+.nav-login:hover {
+  background: #374151;
+}
+
 .hero-grid {
   align-items: center;
   display: grid;
