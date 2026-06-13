@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   const parsed = schema.safeParse(body)
 
   if (!parsed.success) {
-    const msg = parsed.error.errors[0]?.message ?? 'Invalid input'
+    const msg = parsed.error.issues[0]?.message ?? 'Invalid input'
     throw createError({ statusCode: 400, statusMessage: msg })
   }
 
@@ -24,9 +24,20 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 409, statusMessage: 'An account with this email already exists' })
   }
 
-  const venue = await prisma.venue.findFirst()
+  let venue = await prisma.venue.findFirst()
   if (!venue) {
-    throw createError({ statusCode: 500, statusMessage: 'No venue configured' })
+    venue = await prisma.venue.create({
+      data: {
+        name: 'Crown Valet',
+        slug: 'crown-valet',
+        addressLine1: '1 Valet Drive',
+        city: 'Miami',
+        state: 'FL',
+        postalCode: '33101',
+        timezone: 'America/New_York',
+        operatingStatus: 'active',
+      },
+    })
   }
 
   const passwordHash = await hashPassword(password)
