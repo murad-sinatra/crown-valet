@@ -46,6 +46,7 @@ ENV NODE_ENV=production
 COPY --from=builder /app/.output /app/.output
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/prisma.config.ts ./
 COPY --from=builder /app/prisma /app/prisma
 
 EXPOSE 3000
