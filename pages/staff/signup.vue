@@ -1,24 +1,32 @@
 <script setup lang="ts">
-const form = reactive({ email: '', password: '' })
+definePageMeta({ layout: false })
+
+const form = reactive({ email: '', password: '', confirmPassword: '' })
 const isSubmitting = ref(false)
 const errorMessage = ref('')
 
-async function login() {
+async function signup() {
   errorMessage.value = ''
+
+  if (form.password !== form.confirmPassword) {
+    errorMessage.value = 'Passwords do not match'
+    return
+  }
+
   isSubmitting.value = true
 
   try {
-    await $fetch('/api/auth/login', {
+    await $fetch('/api/auth/signup', {
       method: 'POST',
-      body: form,
+      body: { email: form.email, password: form.password },
     })
-    await navigateTo('/staff')
+    await navigateTo('/staff/onboarding')
   } catch (error: unknown) {
     const msg =
       error && typeof error === 'object' && 'data' in error
         ? (error as { data?: { statusMessage?: string } }).data?.statusMessage
         : undefined
-    errorMessage.value = msg ?? 'Login failed. Please try again.'
+    errorMessage.value = msg ?? 'Sign up failed. Please try again.'
   } finally {
     isSubmitting.value = false
   }
@@ -31,13 +39,13 @@ async function login() {
       <AppTopbar />
 
       <PageHeader
-        eyebrow="Staff login"
-        title="Access Crown Valet operations"
-        description="Sign in with your email and password to access staff operations."
+        eyebrow="Create account"
+        title="Join Crown Valet"
+        description="Create your staff account to get started."
       />
 
       <section class="app-card">
-        <form class="check-in-form" @submit.prevent="login">
+        <form class="check-in-form" @submit.prevent="signup">
           <div class="form-section">
             <label class="field">
               <span>Email</span>
@@ -56,8 +64,21 @@ async function login() {
               <input
                 v-model="form.password"
                 type="password"
-                autocomplete="current-password"
+                autocomplete="new-password"
                 name="password"
+                placeholder="••••••••"
+                minlength="8"
+                required
+              >
+            </label>
+
+            <label class="field">
+              <span>Confirm password</span>
+              <input
+                v-model="form.confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                name="confirm-password"
                 placeholder="••••••••"
                 required
               >
@@ -68,14 +89,14 @@ async function login() {
 
           <div class="form-submit">
             <button class="button primary" type="submit" :disabled="isSubmitting">
-              {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
+              {{ isSubmitting ? 'Creating account…' : 'Create account' }}
             </button>
           </div>
         </form>
 
-        <p class="signup-link">
-          Don't have an account?
-          <NuxtLink to="/staff/signup">Create one</NuxtLink>
+        <p class="signup-login-link">
+          Already have an account?
+          <NuxtLink to="/staff/login">Sign in</NuxtLink>
         </p>
       </section>
     </div>
@@ -83,7 +104,7 @@ async function login() {
 </template>
 
 <style scoped>
-.signup-link {
+.signup-login-link {
   margin-top: 1.25rem;
   text-align: center;
   font-size: 0.875rem;
@@ -91,13 +112,13 @@ async function login() {
   opacity: 0.7;
 }
 
-.signup-link a {
+.signup-login-link a {
   color: var(--color-gold);
   text-decoration: none;
   font-weight: 600;
 }
 
-.signup-link a:hover {
+.signup-login-link a:hover {
   text-decoration: underline;
 }
 </style>
