@@ -10,6 +10,7 @@
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href="#download">Download</a>
+          <a class="nav-login" href="/login">Login / Sign up</a>
         </div>
       </nav>
 
