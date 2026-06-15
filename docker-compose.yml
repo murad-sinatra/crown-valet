@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: development
-    command: npm run dev -- --host 0.0.0.0
+    command: npm run dev
     depends_on:
       db:
         condition: service_healthy
@@ -13,11 +13,7 @@ services:
       APP_BASE_URL: ${APP_BASE_URL:-http://localhost:3001}
       CHOKIDAR_INTERVAL: ${CHOKIDAR_INTERVAL:-250}
       CHOKIDAR_USEPOLLING: ${CHOKIDAR_USEPOLLING:-true}
-      NUXT_HOST: 0.0.0.0
-      NUXT_HMR_CLIENT_PORT: ${APP_PORT:-3001}
-      NUXT_APP_BASE_URL: ${NUXT_APP_BASE_URL:-/}
-      NUXT_DEV_WATCH_POLLING: ${NUXT_DEV_WATCH_POLLING:-true}
-      NUXT_PORT: 3000
+      NEXT_DEV_WATCH_POLLING: ${NEXT_DEV_WATCH_POLLING:-true}
       STAFF_AUTH_SECRET: ${STAFF_AUTH_SECRET:-local-dev-staff-auth-secret}
       TICKET_TOKEN_SECRET: ${TICKET_TOKEN_SECRET:-local-dev-ticket-token-secret}
       SMS_PROVIDER: ${SMS_PROVIDER:-mock}

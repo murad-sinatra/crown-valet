@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assertValetStatusTransition, canTransitionValetStatus } from '../server/domain/status'
+import { assertValetStatusTransition, canTransitionValetStatus } from '@/lib/domain/status'
 
 describe('valet status transitions', () => {
   it('allows the normal check-in to parked flow', () => {

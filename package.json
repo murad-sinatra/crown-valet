@@ -3,16 +3,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
     "test": "vitest run",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy",
-    "db:seed": "prisma db seed",
-    "db:studio": "prisma studio",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:deploy": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
     "docker:dev": "docker compose up app db",
     "docker:dev:detached": "docker compose up -d app db",
     "docker:build": "docker compose build",
@@ -20,28 +17,27 @@
     "docker:logs": "docker compose logs -f app",
     "docker:restart:app": "docker compose restart app",
     "docker:test": "docker compose exec app npm run test",
-    "docker:db:generate": "docker compose run --rm app npm run db:generate",
-    "docker:db:migrate": "docker compose exec app npm run db:migrate",
+    "docker:db:migrate": "docker compose exec app npm run db:deploy",
     "docker:db:seed": "docker compose exec app npm run db:seed"
   },
   "engines": {
     "node": ">=20.19.0"
   },
+  "dependencies": {
+    "drizzle-orm": "^0.44.2",
+    "next": "^15.3.3",
+    "pg": "^8.21.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^4.4.3"
+  },
   "devDependencies": {
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
-    "nuxt": "^3.17.7",
-    "prisma": "^7.8.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
     "tsx": "^4.22.4",
+    "typescript": "^5.8.3",
     "vitest": "^4.1.8"
-  },
-  "dependencies": {
-    "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
-    "pg": "^8.21.0",
-    "zod": "^4.4.3"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   }
 }
