@@ -18,7 +18,7 @@ Before changing product behavior, UI, or documentation, read the most relevant s
 ## Product Principles
 
 - Build the reliable valet loop first: check-in, digital ticket, status visibility, pickup request, pickup queue, handoff, and manager visibility.
-- Keep the MVP web-based in the existing Nuxt 3 app unless the user asks for a broader architecture change.
+- Keep the MVP web-based in the existing Next.js app unless the user asks for a broader architecture change.
 - Defer payments, add-on services, native apps, partner workflows, and advanced analytics until the core valet workflow is stable.
 - Preserve customer trust by keeping status history, timestamps, and sensitive data boundaries clear.
 - Make staff workflows fast, mobile-first, and practical for curbside use.
