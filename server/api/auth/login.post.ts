@@ -37,7 +37,6 @@ export default defineEventHandler(async (event) => {
   })
 
   setCookie(event, 'cv_staff_session', user.id, {
-    httpOnly: true,
     sameSite: 'lax',
     path: '/',
     maxAge: 60 * 60 * 24 * 7,

@@ -10,8 +10,9 @@
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href="#download">Download</a>
-          <a class="nav-login" href="/login">Login / Sign up</a>
         </div>
+
+        <a class="nav-login" href="/staff/login">Sign in</a>
       </nav>
 
       <div class="hero-grid">
@@ -27,6 +28,13 @@
             <a class="button primary" href="#">Get the app</a>
             <a class="button secondary" href="#how-it-works">See how it works</a>
           </div>
+
+          <p class="staff-portal-hint">
+            Valet team member?
+            <a href="/staff/login">Sign in to the staff portal</a>
+            or
+            <a href="/staff/signup">create an account</a>
+          </p>
 
           <div class="trust-row" aria-label="Customer highlights">
             <span>4.9 app rating</span>

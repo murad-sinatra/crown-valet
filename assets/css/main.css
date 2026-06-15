@@ -120,13 +120,30 @@ textarea {
   background: #111827;
   border-radius: 6px;
   color: #fff !important;
+  font-size: 0.9rem;
   font-weight: 600;
   padding: 8px 18px;
   transition: background 0.15s;
+  white-space: nowrap;
 }
 
 .nav-login:hover {
   background: #374151;
+}
+
+.staff-portal-hint {
+  color: #686e7d;
+  font-size: 0.875rem;
+  margin-top: 16px;
+}
+
+.staff-portal-hint a {
+  color: var(--color-gold-deep);
+  font-weight: 700;
+}
+
+.staff-portal-hint a:hover {
+  text-decoration: underline;
 }
 
 .hero-grid {
@@ -527,14 +544,37 @@ textarea {
   gap: 10px;
 }
 
-.app-nav a {
+.app-nav a,
+.app-nav button {
   background: rgba(255, 255, 255, 0.6);
   border: 1px solid var(--color-line);
   border-radius: 999px;
   color: var(--color-muted);
+  cursor: pointer;
   font-size: 0.9rem;
   font-weight: 800;
   padding: 10px 14px;
+}
+
+.app-nav a.app-nav-signin {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #fff;
+}
+
+.app-nav a.app-nav-signup {
+  background: rgba(245, 199, 107, 0.18);
+  border-color: rgba(166, 111, 24, 0.3);
+  color: var(--color-gold-deep);
+}
+
+.app-nav button {
+  transition: background 0.15s, color 0.15s;
+}
+
+.app-nav button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-ink);
 }
 
 .app-card {
