@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 import StatusBadge from '@/components/StatusBadge'
 
@@ -78,10 +79,12 @@ export default function StaffSessionDetailPage() {
       .finally(() => setPending(false))
   }, [params.id])
 
+  if (pending) {
+    return <LoadingScreen message="Loading session…" />
+  }
+
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell>
 
         <PageHeader
           eyebrow="Vehicle detail"
@@ -93,9 +96,7 @@ export default function StaffSessionDetailPage() {
           description="Review check-in details, share the customer ticket link, and inspect the initial timeline."
         />
 
-        {pending ? (
-          <p className="muted-copy">Loading session...</p>
-        ) : error ? (
+        {error ? (
           <p className="form-error">Unable to load this session.</p>
         ) : session ? (
           <div className="detail-layout">
@@ -211,7 +212,6 @@ export default function StaffSessionDetailPage() {
             </section>
           </div>
         ) : null}
-      </div>
-    </main>
+    </AppShell>
   )
 }

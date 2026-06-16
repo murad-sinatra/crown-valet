@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 import StatusBadge from '@/components/StatusBadge'
 
@@ -46,11 +47,12 @@ export default function StaffSessionsPage() {
     void loadSessions()
   }, [])
 
-  return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+  if (pending) {
+    return <LoadingScreen message="Loading active sessions…" />
+  }
 
+  return (
+    <AppShell>
         <PageHeader
           eyebrow="Staff operations"
           title="Active valet sessions"
@@ -74,9 +76,7 @@ export default function StaffSessionsPage() {
             </div>
           </div>
 
-          {pending ? (
-            <p className="muted-copy">Loading active sessions...</p>
-          ) : error ? (
+          {error ? (
             <p className="form-error">Unable to load active sessions.</p>
           ) : sessions.length ? (
             <div className="session-list">
@@ -107,7 +107,6 @@ export default function StaffSessionsPage() {
             </div>
           )}
         </section>
-      </div>
-    </main>
+    </AppShell>
   )
 }

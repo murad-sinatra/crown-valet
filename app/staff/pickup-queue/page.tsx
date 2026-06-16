@@ -1,13 +1,10 @@
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
 import PageHeader from '@/components/PageHeader'
 import StatusBadge from '@/components/StatusBadge'
 
 export default function PickupQueuePage() {
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
-
+    <AppShell>
         <PageHeader
           eyebrow="Pickup queue"
           title="Vehicles requested for pickup"
@@ -30,7 +27,6 @@ export default function PickupQueuePage() {
             </li>
           </ul>
         </section>
-      </div>
-    </main>
+    </AppShell>
   )
 }

@@ -1,13 +1,10 @@
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
 import PageHeader from '@/components/PageHeader'
 import StatusBadge from '@/components/StatusBadge'
 
 export default function DashboardPage() {
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
-
+    <AppShell>
         <PageHeader
           eyebrow="Manager dashboard"
           title="Live venue operations"
@@ -30,7 +27,6 @@ export default function DashboardPage() {
             <p>Managers will see delayed or problem vehicles at a glance.</p>
           </section>
         </div>
-      </div>
-    </main>
+    </AppShell>
   )
 }

@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
+import LoadingScreen from '@/components/LoadingScreen'
 import styles from './ticket.module.css'
 
 const SERVICE_OPTIONS = [
@@ -84,6 +85,7 @@ export default function TicketPage() {
   const params = useParams<{ token: string }>()
   const token = params.token
   const [ticket, setTicket] = useState<Ticket | null>(null)
+  const [pending, setPending] = useState(true)
   const [error, setError] = useState(false)
   const [showRequestPanel, setShowRequestPanel] = useState(false)
   const [selectedService, setSelectedService] = useState<ServiceType | null>(null)
@@ -92,15 +94,23 @@ export default function TicketPage() {
   const [submitError, setSubmitError] = useState('')
   const [submitSuccess, setSubmitSuccess] = useState(false)
 
-  async function loadTicket() {
-    const response = await fetch(`/api/ticket/${token}`)
-    if (!response.ok) {
+  async function loadTicket(showLoading = true) {
+    if (showLoading) setPending(true)
+    try {
+      const response = await fetch(`/api/ticket/${token}`)
+      if (!response.ok) {
+        setError(true)
+        setTicket(null)
+        return
+      }
+      setError(false)
+      setTicket(await response.json())
+    } catch {
       setError(true)
       setTicket(null)
-      return
+    } finally {
+      if (showLoading) setPending(false)
     }
-    setError(false)
-    setTicket(await response.json())
   }
 
   useEffect(() => {
@@ -139,6 +149,7 @@ export default function TicketPage() {
 
       if (!response.ok) {
         setSubmitError((await readError(response)) ?? 'Could not submit request. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
@@ -167,6 +178,8 @@ export default function TicketPage() {
 
   return (
     <main className={styles.ticketSurface}>
+      {pending ? <LoadingScreen message="Loading your ticket…" /> : null}
+      {isSubmitting ? <LoadingScreen message="Sending request…" /> : null}
       <div className={styles.ticketShell}>
         <header className={styles.ticketHeader}>
           <img className={styles.ticketLogo} src="/logo.png" alt="Crown Valet" />

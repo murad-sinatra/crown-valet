@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 
 const roles = [
@@ -43,21 +44,20 @@ export default function StaffOnboardingPage() {
 
       if (!response.ok) {
         setErrorMessage((await readError(response)) ?? 'Failed to save profile. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
       router.push('/staff')
     } catch {
       setErrorMessage('Failed to save profile. Please try again.')
-    } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell>
+      {isSubmitting ? <LoadingScreen message="Saving your profile…" /> : null}
 
         <PageHeader
           eyebrow="Almost there"
@@ -132,7 +132,6 @@ export default function StaffOnboardingPage() {
             </div>
           </form>
         </section>
-      </div>
 
       <style jsx>{`
         .field-optional {
@@ -202,6 +201,6 @@ export default function StaffOnboardingPage() {
           }
         }
       `}</style>
-    </main>
+    </AppShell>
   )
 }

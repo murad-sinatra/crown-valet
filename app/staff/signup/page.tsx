@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 
 async function readError(response: Response) {
@@ -37,21 +38,20 @@ export default function StaffSignupPage() {
 
       if (!response.ok) {
         setErrorMessage((await readError(response)) ?? 'Sign up failed. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
       router.push('/staff/onboarding')
     } catch {
       setErrorMessage('Sign up failed. Please try again.')
-    } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell showNav={false}>
+      {isSubmitting ? <LoadingScreen message="Creating your account…" /> : null}
 
         <PageHeader
           eyebrow="Create account"
@@ -118,7 +118,6 @@ export default function StaffSignupPage() {
             Already have an account? <Link href="/staff/login">Sign in</Link>
           </p>
         </section>
-      </div>
 
       <style jsx>{`
         .signup-login-link {
@@ -139,6 +138,6 @@ export default function StaffSignupPage() {
           text-decoration: underline;
         }
       `}</style>
-    </main>
+    </AppShell>
   )
 }

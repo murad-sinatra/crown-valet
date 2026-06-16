@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 
 async function readError(response: Response) {
@@ -41,6 +42,7 @@ export default function StaffCheckInPage() {
 
       if (!response.ok) {
         setErrorMessage((await readError(response)) ?? 'Unable to create this valet session. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
@@ -54,15 +56,13 @@ export default function StaffCheckInPage() {
       )
     } catch {
       setErrorMessage('Unable to create this valet session. Please try again.')
-    } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell>
+      {isSubmitting ? <LoadingScreen message="Creating valet session…" /> : null}
 
         <PageHeader
           eyebrow="New check-in"
@@ -231,7 +231,6 @@ export default function StaffCheckInPage() {
             </button>
           </form>
         </section>
-      </div>
-    </main>
+    </AppShell>
   )
 }

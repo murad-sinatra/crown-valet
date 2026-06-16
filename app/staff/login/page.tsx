@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { FormEvent, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 
 async function readError(response: Response) {
@@ -31,21 +32,20 @@ export default function StaffLoginPage() {
 
       if (!response.ok) {
         setErrorMessage((await readError(response)) ?? 'Login failed. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
       router.push('/staff')
     } catch {
       setErrorMessage('Login failed. Please try again.')
-    } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell showNav={false}>
+      {isSubmitting ? <LoadingScreen message="Signing you in…" /> : null}
 
         <PageHeader
           eyebrow="Staff login"
@@ -96,7 +96,6 @@ export default function StaffLoginPage() {
             Don&apos;t have an account? <Link href="/staff/signup">Create one</Link>
           </p>
         </section>
-      </div>
 
       <style jsx>{`
         .signup-link {
@@ -117,6 +116,6 @@ export default function StaffLoginPage() {
           text-decoration: underline;
         }
       `}</style>
-    </main>
+    </AppShell>
   )
 }

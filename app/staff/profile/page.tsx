@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { FormEvent, useEffect, useState } from 'react'
-import AppTopbar from '@/components/AppTopbar'
+import AppShell from '@/components/AppShell'
+import LoadingScreen from '@/components/LoadingScreen'
 import PageHeader from '@/components/PageHeader'
 
 type Me = {
@@ -26,6 +27,8 @@ export default function StaffProfilePage() {
     confirmPassword: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
+  const [mePending, setMePending] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
@@ -34,6 +37,7 @@ export default function StaffProfilePage() {
       .then((response) => response.json())
       .then(setMe)
       .catch(() => setMe(null))
+      .finally(() => setMePending(false))
   }, [])
 
   async function changePassword(event: FormEvent) {
@@ -51,6 +55,7 @@ export default function StaffProfilePage() {
 
       if (!response.ok) {
         setErrorMessage((await readError(response)) ?? 'Could not update password. Please try again.')
+        setIsSubmitting(false)
         return
       }
 
@@ -64,14 +69,19 @@ export default function StaffProfilePage() {
   }
 
   async function logout() {
+    setIsLoggingOut(true)
     await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/staff/login')
   }
 
+  if (mePending) {
+    return <LoadingScreen message="Loading profile…" />
+  }
+
   return (
-    <main className="app-surface">
-      <div className="app-shell">
-        <AppTopbar />
+    <AppShell>
+      {isSubmitting ? <LoadingScreen message="Updating password…" /> : null}
+      {isLoggingOut ? <LoadingScreen message="Signing out…" /> : null}
 
         <PageHeader
           eyebrow="My profile"
@@ -176,7 +186,6 @@ export default function StaffProfilePage() {
             </button>
           </div>
         </section>
-      </div>
-    </main>
+    </AppShell>
   )
 }
